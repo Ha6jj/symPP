@@ -6,7 +6,7 @@ SRC_DIR = src
 DB_DIR = $(SRC_DIR)/baseExpression
 BUILD_DIR = ./build
  
-SRCS = main.cpp \
+SRCS = test.cpp \
 $(SRC_DIR)/expression.cpp \
 $(SRC_DIR)/lexer.cpp \
 $(SRC_DIR)/parser.cpp \
@@ -24,7 +24,7 @@ $(DB_DIR)/symbol.cpp
  
 OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRCS))
  
-TARGET = main
+TARGET = executable
  
 DEPS = $(OBJS:.o=.d)
  
@@ -42,7 +42,7 @@ $(BUILD_DIR)/$(SRC_DIR)/expression.o: $(SRC_DIR)/expression.cpp $(SRC_DIR)/lexer
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
  
-run: $(TARGET)
+test: $(TARGET)
 	./$(TARGET)
  
 rebuild: clean all

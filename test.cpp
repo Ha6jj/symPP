@@ -16,20 +16,32 @@ void test_constructor()
         std::cout << "[FAIL] Constructors are not ok\n";
 }
 
-void test_utils()
+void test_diff()
 {
     bool result = true;
 
     Expression<double> expr = Expression<double>("x") + Expression<double>("y");
-    result = result && (Expression<double>(55).eval() == 55);
-    result = result && (expr.toString() == "x+y");
+    result = result && (expr.diff("y").toString() == "0+1");
     result = result && (expr.diff("x").toString() == "1+0");
+    result = result && ((((expr)^(Expression<double>(4).sin())).diff("x")).toString() == "(((0)*(cos(4)))*(ln(x+y))+(sin(4))*((1+0)/(x+y)))*(exp((sin(4))*(ln(x+y))))");
+
+    if (result)
+        std::cout << "[OK]   Differeciation is ok\n";
+    else
+        std::cout << "[FAIL] Differeciation is not ok\n";
+}
+
+void test_utils()
+{
+    bool result = true;
+    Expression<double> expr = Expression<double>("x") + Expression<double>("y");
+    result = result && (Expression<double>(55).eval() == 55);
     result = result && (expr.subs({{"x", 44}, {"y", 11}}).eval() == 55);
 
     if (result)
-        std::cout << "[OK]   Utils are ok\n";
+        std::cout << "[OK]   Utils is ok\n";
     else
-        std::cout << "[FAIL] Utils are not ok\n";
+        std::cout << "[FAIL] Utils is not ok\n";
 }
 
 void test_operations()
@@ -64,6 +76,7 @@ void test_parser()
 int main()
 {
     test_constructor();
+    test_diff();
     test_utils();
     test_operations();
     test_parser();
